@@ -10,7 +10,7 @@ const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
 
-let currentDate = new Date();
+let currentDate = null;
 let selectedDate = null;
 let deltaDate = null;
 let intervalId = null;
@@ -25,6 +25,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     selectedDate = selectedDates[0];
+    currentDate = Date.now();
     deltaDate = selectedDate - currentDate;
 
     if (selectedDate <= currentDate) {
@@ -37,18 +38,23 @@ const options = {
   },
 };
 
-flatpickr(calendar, options);
+const datePicker = flatpickr(calendar, options);
 
 function startTimer() {
   intervalId = setInterval(() => {
-  selectedDate = options.onClose.selectedDates[0];
+  selectedDate = datePicker.selectedDates[0].getTime();
+  currentDate = Date.now();
   deltaDate = selectedDate - currentDate;
   const time = convertMs(deltaDate);
   updateTimer(time);
+  calendar.disabled = true;
+  if (deltaDate < 1000) {
+    stopTimer();
+  }
   }, 1000);
   startBtn.disabled = true;
-  stopTimer()
-}
+  // calendar.disabled = false;
+  }
 
 function stopTimer() {
   if (daysEl.textContent === '00' &&
