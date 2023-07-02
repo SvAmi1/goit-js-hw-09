@@ -41,7 +41,8 @@ flatpickr(calendar, options);
 
 function startTimer() {
   intervalId = setInterval(() => {
-  
+  selectedDate = options.onClose.selectedDates[0];
+  deltaDate = selectedDate - currentDate;
   const time = convertMs(deltaDate);
   updateTimer(time);
   }, 1000);
