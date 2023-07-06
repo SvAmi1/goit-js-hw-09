@@ -8,8 +8,8 @@ function handleFormSubmit(evt) {
   evt.preventDefault();
 
   let delay = Number(evt.target.delay.value);
-  let step = Number(evt.target.step.value);
-  let amount = Number(evt.target.amount.value);
+  const step = Number(evt.target.step.value);
+  const amount = Number(evt.target.amount.value);
 
   for (let position = 1; position <= amount; position += 1) {
     createPromise(position, delay)
